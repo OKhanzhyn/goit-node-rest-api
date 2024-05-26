@@ -76,7 +76,7 @@ export const updateContact = async (req, res) => {
     .catch((err) => res.status(500).json("Internal Server Error"));
 };
 
-export const updateContactFavorite = async (req, res) => {
+export const updateStatusContact = async (req, res) => {
   const { id } = req.params;
   if (!isValidObjectId(id)) {
     return res.status(404).json({ message: "This identifier is not valid" });
