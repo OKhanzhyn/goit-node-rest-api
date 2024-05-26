@@ -1,4 +1,5 @@
 import Contact from "../models/contact.js";
+
 async function listContacts() {
   try {
     const data = await Contact.find();

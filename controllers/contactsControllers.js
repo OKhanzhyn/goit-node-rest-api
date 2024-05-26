@@ -1,5 +1,6 @@
 import { isValidObjectId } from "mongoose";
 import contactsService from "../services/contactsServices.js";
+
 export const getAllContacts = async (req, res) => {
   contactsService
     .listContacts()
@@ -42,9 +43,9 @@ export const deleteContact = async (req, res) => {
 };
 
 export const createContact = async (req, res) => {
-  const { name, email, phone, favortie } = req.body;
+  const { name, email, phone, favorite } = req.body;
   contactsService
-    .addContact(name, email, phone, favortie)
+    .addContact(name, email, phone, favorite)
     .then((contact) => {
       res.status(201).json(contact);
     })
@@ -56,7 +57,7 @@ export const updateContact = async (req, res) => {
   if (!isValidObjectId(id)) {
     return res.status(404).json({ message: "This identifier is not valid" });
   }
-  const { name, email, phone, favortie } = req.body;
+  const { name, email, phone, favorite } = req.body;
 
   if (name === undefined && email === undefined && phone === undefined) {
     return res
@@ -65,7 +66,7 @@ export const updateContact = async (req, res) => {
   }
 
   contactsService
-    .updateContact(id, favortie, name, email, phone)
+    .updateContact(id, favorite, name, email, phone)
     .then((contact) => {
       if (contact == null) {
         return res.status(404).json({ message: "Contact not found" });

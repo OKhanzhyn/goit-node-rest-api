@@ -2,10 +2,8 @@ import "dotenv/config";
 import express from "express";
 import morgan from "morgan";
 import cors from "cors";
-
-import contactsRouter from "./routes/contactsRouter.js";
-
 import "./db.js";
+import contactsRouter from "./routes/contactsRouter.js";
 
 const app = express();
 
@@ -28,14 +26,4 @@ app.listen(3000, () => {
   console.log("Server is running. Use our API on port: 3000");
 });
 
-// async function run() {
-//   try {
-//     await mongoose.connect(DB_URI);
-//     console.log("Database connection successfully");
-//   } catch (error) {
-//     console.error("Database connection failure:", error);
-//   } finally {
-//     await mongoose.disconnect();
-//   }
-// }
-// run().catch(console.error);
+
