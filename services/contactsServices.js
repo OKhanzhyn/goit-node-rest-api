@@ -1,37 +1,49 @@
 import Contact from "../models/contact.js";
-async function listContacts() {
+async function listContacts(filter, page, limit) {
   try {
-    const data = await Contact.find();
-    return data;
+    const skip = (page - 1) * limit;
+    const contacts = await Contact.find(filter).skip(skip).limit(limit);
+
+    const total = await Contact.countDocuments(filter);
+    return {
+      total,
+      page,
+      limit,
+      contacts,
+    };
   } catch (error) {
     next(error);
   }
 }
 
-async function getContactById(contactId) {
+async function getContactById(contactId, ownerId) {
   try {
-    const contact = await Contact.findById(contactId);
+    const contact = await Contact.findOne({ _id: contactId, owner: ownerId });
     return contact;
   } catch (error) {
     console.log(error);
   }
 }
 
-async function removeContact(contactId) {
+async function removeContact(contactId, ownerId) {
   try {
-    const data = await Contact.findByIdAndDelete(contactId);
+    const data = await Contact.findOneAndDelete({
+      _id: contactId,
+      owner: ownerId,
+    });
     return data;
   } catch (error) {
     next(error);
   }
 }
 
-async function addContact(name, email, phone, favorite = false) {
+async function addContact(ownerId, name, email, phone, favorite) {
   const newBook = {
     name: name,
     email: email,
     phone: phone,
     favorite: favorite,
+    owner: ownerId,
   };
 
   try {
@@ -43,8 +55,11 @@ async function addContact(name, email, phone, favorite = false) {
   }
 }
 
-async function updateContact(contactId, favorite, name, email, phone) {
-  const currentContact = await Contact.findById(contactId);
+async function updateContact(contactId, ownerId, favorite, name, email, phone) {
+  const currentContact = await Contact.findOne({
+    _id: contactId,
+    owner: ownerId,
+  });
   if (currentContact == null) {
     return null;
   }
@@ -59,7 +74,6 @@ async function updateContact(contactId, favorite, name, email, phone) {
     const result = await Contact.findByIdAndUpdate(contactId, newData, {
       new: true,
     });
-    console.log(result);
     return result;
   } catch (error) {
     next(error);
