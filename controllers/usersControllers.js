@@ -122,7 +122,7 @@ export const updateAvatar = async (req, res, next) => {
       (err, avatar) => {
         if (err) throw err;
         avatar
-          .resize(256, 256)
+          .resize(250, 250)
           .quality(60)
           .write(path.resolve("public", "avatars", req.file.filename));
       }

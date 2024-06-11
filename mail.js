@@ -11,7 +11,10 @@ const transport = nodemailer.createTransport({
 });
 
 function sendMail(message) {
-  return transport.sendMail(message);
+  return transport.sendMail(message).then(console.log).catch(console.error);
+  
 }
 
 export default { sendMail };
+
+//npx kill-port 3000

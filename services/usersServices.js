@@ -62,7 +62,7 @@ const loginUser = async (email, password) => {
       { id: user._id, email: user.email, subscription: user.subscription },
       process.env.JWT_SECRET,
       {
-        expiresIn: "3h",
+        expiresIn: "4h",
       }
     );
 
